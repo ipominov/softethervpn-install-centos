@@ -1,0 +1,17 @@
+---
+
+- hosts: vds
+
+  vars_prompt:
+    - name: var_login    
+      prompt: "Enter new user login:"    
+      private: no
+    - name: var_password    
+      prompt: "Enter a password for the user"    
+      private: no    
+      encrypt: "md5_crypt"     
+      confirm: yes    
+      salt_size: 7
+
+  roles:
+    - Softether

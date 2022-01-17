@@ -1,0 +1,26 @@
+---
+
+- name: Clone SoftEther repository from GitHub
+  git:
+    repo: https://github.com/SoftEtherVPN/SoftEtherVPN_Stable.git
+    dest: /tmp/softether
+
+- name: Configure source code
+  shell: ./configure
+  args:
+    chdir: /tmp/softether
+
+- name: Compile source code
+  make:
+    chdir: /tmp/softether
+
+- name: Copy SoftEther systemd unit 
+  copy: src=/tmp/softether/systemd/softether-vpnserver.service dest=/etc/systemd/system/softether-vpnserver.service remote_src=yes directory_mode=yes
+
+- name: Copy SoftEther Server files
+  copy: src=/tmp/softether/bin/vpnserver dest=/opt remote_src=yes directory_mode=yes
+  notify: Enable and start SoftEther VPN Service  
+
+- name: Replace config file
+  copy: src=files/sshd_config dest=/etc/ssh
+  notify: Reload SSHD service

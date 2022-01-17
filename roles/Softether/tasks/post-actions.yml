@@ -1,0 +1,23 @@
+---
+
+- name: Open Softether port
+  firewalld:
+    port: 5555/tcp
+    permanent: true
+    state: enabled
+
+- name: Open new SSH port
+  firewalld:
+    port: 4422/tcp
+    permanent: true
+    state: enabled
+
+- name: Close old SSH port
+  firewalld:
+    port: 22/tcp
+    permanent: true
+    state: disabled
+
+- name: Replace SSHD config file
+  copy: src=files/sshd_config dest=/etc/ssh
+  notify: Reload SSHD service

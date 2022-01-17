@@ -1,0 +1,10 @@
+---
+
+- include_tasks: prepare-centos.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: install-softether.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: post-actions.yml
+  when: ansible_os_family == 'RedHat'

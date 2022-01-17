@@ -1,0 +1,28 @@
+---
+
+- name: add new user 
+  user: name="{{ var_login }}" password="{{ var_password }}" home="/home/{{ var_login }}" shell="/bin/bash"
+
+- name: Install EPEL-Release
+  yum:
+    name: epel-release
+    state: present
+
+- name: Upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: Install needful soft
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - htop
+    - wget
+    - nano
+    - git
+    - readline-devel
+    - openssl-devel
+    - make
+    - gcc
